@@ -9,12 +9,19 @@ public class NUnitPlaywright : PageTest
     public async Task Test1()
     {
         await Page.GotoAsync("http://eaapp.somee.com");
-        
-        await Page.ClickAsync("#loginLink");
 
-        await Page.FillAsync("#UserName", "admin");
-        await Page.FillAsync("#Password", "password");
-        await Page.ClickAsync("text=Log in");
+        var linkLogin = Page.Locator("#loginLink");
+        await linkLogin.ClickAsync();
+
+        var username = Page.Locator("#UserName");
+        await username.FillAsync("admin");
+        
+        var password = Page.Locator("#Password");
+        await password.FillAsync("password");
+
+        var btnLogin = Page.Locator("input", new PageLocatorOptions { HasTextString = "Log In" });
+        await btnLogin.ClickAsync();
+        
         await Expect(Page.Locator("text='Employee Details'")).ToBeVisibleAsync();
     }
 }
